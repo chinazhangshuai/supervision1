@@ -1,0 +1,5 @@
+rootProject.name = 'supervision'
+include 'core'
+include 'supervision'
+include 'start'
+

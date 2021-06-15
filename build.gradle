@@ -1,0 +1,102 @@
+buildscript {
+    repositories {
+        maven {
+            url "${nexusUrl}"
+            allowInsecureProtocol = true
+        }
+        maven {
+            url "${aliyunUrl}"
+            allowInsecureProtocol = true
+        }
+        maven {
+            url "${springUrl}"
+            allowInsecureProtocol = true
+        }
+        maven {
+            url "${spring2Url}"
+            allowInsecureProtocol = true
+        }
+        jcenter()
+        mavenCentral()
+
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+subprojects  {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'idea'
+    apply plugin: 'io.spring.dependency-management'
+
+    group = 'com.iscas'
+    version = '1.0.0.RELEASE'
+    sourceCompatibility = "${javaVersion}".toFloat()
+    targetCompatibility = "${javaVersion}".toFloat()
+
+
+    configurations {
+        compile.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+        compile.exclude group: 'org.apache.tomcat'
+        compile.exclude group: 'org.apache.tomcat.embed'
+    }
+
+    repositories {
+        maven {
+            url "${nexusUrl}"
+            allowInsecureProtocol = true
+        }
+        maven {
+            url "${aliyunUrl}"
+            allowInsecureProtocol = true
+        }
+        maven {
+            url "${springUrl}"
+            allowInsecureProtocol = true
+        }
+        maven {
+            url "${spring2Url}"
+            allowInsecureProtocol = true
+        }
+        maven {
+            url "${spring3Url}"
+            allowInsecureProtocol = true
+        }
+        maven {
+            url "${iceBlueUrl}"
+            allowInsecureProtocol = true
+        }
+        jcenter()
+        mavenCentral()
+    }
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
+    dependencies {
+//        compile 'org.projectlombok:lombok'
+        annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+        compileOnly "org.projectlombok:lombok:${lombokVersion}"
+        testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+        testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+        //junit
+        testCompile group: 'junit', name: 'junit', version:"${junitVersion}"
+    }
+
+    //这里一定得要。在多模块下，不然编译失败，因为不会把依赖模块给打包。
+    jar {
+        enabled = true
+    }
+}
+
+def bootJarModules() {
+    subprojects.findAll {it.name.equals('start')/* || it.name.equals("rule-engine")*/}
+}
+
+task bootApp {
+    dependsOn /*subprojects.clean,*/ bootJarModules().bootJar
+    doLast {
+        println "bootApp执行结束"
+    }
+}

@@ -1,0 +1,9 @@
+bootJar {
+    manifest {
+        attributes 'Start-Class': 'com.iscas.start.BizApp'
+    }
+}
+
+dependencies {
+    compile project (":supervision")
+}

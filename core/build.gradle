@@ -1,0 +1,19 @@
+
+//bootJar {
+//    manifest {
+//        attributes 'Start-Class': 'com.iscas.biz.BizApp'
+//    }
+////    launchScript()
+//}
+
+dependencies {
+    compile "com.iscas:templet:${gegeralVersion}" //前后台交互协议模板定义
+    compile "com.iscas:common-tools:${gegeralVersion}" //基础工具类
+    compile "com.iscas:common-web-tools:${gegeralVersion}" //web相关工具类
+    compile "com.iscas:common-rpc-tools:${gegeralVersion}" //rpc相关工具类
+    compile "com.iscas:common-redis-tools:${gegeralVersion}" //redis相关工具类
+    compile "com.iscas:biz-mp:${gegeralVersion}" //mybatis相关
+    compile "com.iscas:biz-base:${gegeralVersion}" //biz-base相关
+    compile fileTree(dir:'libs',include:['*.jar']) //引入本地jar
+
+}
